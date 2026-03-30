@@ -35,7 +35,7 @@ export default function Header() {
                 <li>
                   <Link
                     className="text-curiosos-texto-suave transition hover:text-curiosos-morado"
-                    href="#productos"
+                    href="/productos"
                   >
                     Productos
                   </Link>
