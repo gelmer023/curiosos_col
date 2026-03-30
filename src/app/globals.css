@@ -1,26 +1,31 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* ── Paleta principal Curiosos ── */
+  --color-curiosos-morado:        #7C3AED;
+  --color-curiosos-morado-claro:  #EDE9FE;
+  --color-curiosos-naranja:       #F97316;
+  --color-curiosos-naranja-claro: #FED7AA;
+  --color-curiosos-rosa:          #EC4899;
+  --color-curiosos-rosa-claro:    #FCE7F3;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* ── Neutros ── */
+  --color-curiosos-fondo:         #FAFAFA;
+  --color-curiosos-borde:         #E5E7EB;
+  --color-curiosos-texto:         #1F1F1F;
+  --color-curiosos-texto-suave:   #6B7280;
+
+  /* Fuentes */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #FAFAFA;
+  --foreground: #1F1F1F;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
