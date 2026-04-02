@@ -2,6 +2,7 @@ import { connectDB } from "@/lib/mongodb";
 import Producto from "@/models/Producto";
 import Catalogo from "@/components/Catalogo";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default async function ProductosPage() {
   await connectDB();
@@ -24,6 +25,7 @@ export default async function ProductosPage() {
         <Catalogo productos={productosSerializados} />
       </div>
     </main>
+    <Footer />
     </>
   );
 }
