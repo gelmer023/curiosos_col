@@ -32,6 +32,8 @@ export default function ProductoForm({ producto }) {
   const [nuevaCaracteristica, setNuevaCaracteristica] = useState("");
   const [nuevaEtiqueta, setNuevaEtiqueta] = useState("");
   const [loading, setLoading] = useState(false);
+  const [subiendoImagen, setSubiendoImagen] = useState(false);
+  const [preview, setPreview] = useState(producto?.imagen || "");
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
@@ -56,6 +58,21 @@ export default function ProductoForm({ producto }) {
 
   function eliminarEtiqueta(i) {
     setForm((prev) => ({ ...prev, etiquetas: prev.etiquetas.filter((_, idx) => idx !== i) }));
+  }
+
+  async function handleImagen(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    setSubiendoImagen(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    const res = await fetch("/api/upload", { method: "POST", body: formData });
+    const data = await res.json();
+    if (data.url) {
+      setForm((prev) => ({ ...prev, imagen: data.url }));
+      setPreview(data.url);
+    }
+    setSubiendoImagen(false);
   }
 
   async function handleSubmit(e) {
@@ -109,12 +126,34 @@ export default function ProductoForm({ producto }) {
         </div>
       </div>
 
-      {/* Imagen URL */}
+      {/* Imagen */}
       <div>
-        <label className="block text-sm font-medium text-curiosos-texto mb-1">URL de imagen</label>
-        <input name="imagen" value={form.imagen} onChange={handleChange}
-          className="w-full border border-curiosos-borde rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-curiosos-morado"
-          placeholder="https://..." />
+        <label className="block text-sm font-medium text-curiosos-texto mb-2">Imagen del producto</label>
+        <div className="flex gap-4 items-start">
+          {/* Preview */}
+          <div className="w-24 h-24 rounded-xl border border-curiosos-borde bg-curiosos-fondo flex items-center justify-center overflow-hidden shrink-0">
+            {preview ? (
+              <img src={preview} alt="preview" className="w-full h-full object-cover" />
+            ) : (
+              <span className="text-3xl">🎁</span>
+            )}
+          </div>
+          {/* Input file */}
+          <div className="flex-1">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImagen}
+              className="w-full text-sm text-curiosos-texto-suave file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-curiosos-morado-claro file:text-curiosos-morado file:text-sm file:cursor-pointer hover:file:opacity-80"
+            />
+            {subiendoImagen && (
+              <p className="text-xs text-curiosos-morado mt-2">Subiendo imagen...</p>
+            )}
+            {form.imagen && !subiendoImagen && (
+              <p className="text-xs text-green-600 mt-2">✓ Imagen subida correctamente</p>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Disponible y Destacado */}
